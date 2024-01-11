@@ -27,9 +27,3 @@
       - nextdns_profile_id is defined
       - nextdns_profile_id | match('^[a-z0-9]{6}$')
   quiet: true
-
-- name: Assert | nextdns_version must be defined
-  ansible.builtin.assert:
-    that:
-      - nextdns_version is defined
-  quiet: true
