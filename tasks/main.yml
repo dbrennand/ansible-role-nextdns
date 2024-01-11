@@ -4,10 +4,10 @@
   ansible.builtin.import_tasks: assert.yml
 
 - name: Debian | Install apt-transport-https
+  when: ansible_distribution == 'Debian'
   ansible.builtin.package:
     name: apt-transport-https
     state: "{{ nextdns_state }}"
-  when: ansible_distribution == 'Debian'
 
 - name: Install NextDNS gpg key
   ansible.builtin.apt_key:
