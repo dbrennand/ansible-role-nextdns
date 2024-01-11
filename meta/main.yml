@@ -1,7 +1,7 @@
 galaxy_info:
   role_name: nextdns
   author: dbrennand
-  description: Install NextDNS CLI
+  description: Install and configure the NextDNS CLI
   license: license (MIT)
   min_ansible_version: "2.9"
   platforms:
