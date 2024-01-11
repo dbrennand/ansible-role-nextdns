@@ -1,0 +1,35 @@
+---
+# assert tasks for nextdns
+- name: Assert | nextdns_state must be defined
+  ansible.builtin.assert:
+    that:
+      - nextdns_state is defined
+      - nextdns_state in ['latest', 'present', 'absent']
+  quiet: true
+
+- name: Assert | nextdns_mode must be defined
+  ansible.builtin.assert:
+    that:
+      - nextdns_mode is defined
+      - nextdns_mode in ['workstation', 'router']
+  quiet: true
+
+- name: Assert | nextdns_report_client_info must be defined
+  ansible.builtin.assert:
+    that:
+      - nextdns_report_client_info is defined
+      - nextdns_report_client_info in [true, false]
+  quiet: true
+
+- name: Assert | nextdns_profile_id must be defined
+  ansible.builtin.assert:
+    that:
+      - nextdns_profile_id is defined
+      - nextdns_profile_id | match('^[a-z0-9]{6}$')
+  quiet: true
+
+- name: Assert | nextdns_version must be defined
+  ansible.builtin.assert:
+    that:
+      - nextdns_version is defined
+  quiet: true

@@ -1,0 +1,5 @@
+---
+# defaults file for nextdns
+nextdns_state: present
+nextdns_mode: workstation
+nextdns_report_client_info: true

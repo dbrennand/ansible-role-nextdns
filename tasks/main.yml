@@ -1,0 +1,36 @@
+---
+# tasks file for nextdns
+- name: Import assert tasks
+  ansible.builtin.import_tasks: assert.yml
+
+- name: Debian | Install apt-transport-https
+  ansible.builtin.package:
+    name: apt-transport-https
+    state: "{{ nextdns_state }}"
+  when: ansible_distribution == 'Debian'
+
+- name: Install NextDNS gpg key
+  ansible.builtin.apt_key:
+    url: https://repo.nextdns.io/nextdns.gpg
+    state: "{{ nextdns_state }}"
+
+- name: Add NextDNS apt repository
+  ansible.builtin.apt_repository:
+    repo: deb [signed-by=/usr/share/keyrings/nextdns.gpg] https://repo.nextdns.io/deb stable main
+    filename: nextdns
+    state: "{{ nextdns_state }}"
+
+- name: Install NextDNS CLI Package
+  ansible.builtin.package:
+    name: nextdns
+    state: "{{ nextdns_state }}"
+
+- name: Install NextDNS
+  when: nextdns_state == 'present'
+  become: true
+  ansible.builtin.command: |
+    {% if nextdns_mode == 'workstation' %}
+      nextdns install -profile {{ nextdns_profile_id }} {% if nextdns_report_client_info %} -report-client-info {% endif %} -auto-activate
+    {% else %}
+      nextdns install -profile {{ nextdns_profile_id }} {% if nextdns_report_client_info %} -report-client-info {% endif %} -setup-router
+    {% endif %}
