@@ -29,7 +29,15 @@
   when: nextdns_state in ['present', 'latest']
   ansible.builtin.command: |
     {% if nextdns_mode == 'workstation' %}
-      nextdns install -profile {{ nextdns_profile_id }} {% if nextdns_report_client_info %} -report-client-info {% endif %} -auto-activate
+      nextdns install -profile {{ nextdns_profile_id }} {% if nextdns_report_client_info -%} -report-client-info {%- endif %} -auto-activate
     {% else %}
-      nextdns install -profile {{ nextdns_profile_id }} {% if nextdns_report_client_info %} -report-client-info {% endif %} -setup-router
+      nextdns install -profile {{ nextdns_profile_id }} {% if nextdns_report_client_info -%} -report-client-info {%- endif %} -setup-router
     {% endif %}
+
+- name: Configure NextDNS
+  when:
+    - nextdns_state in ['present', 'latest']
+    - nextdns_args
+  notify: Restart NextDNS
+  ansible.builtin.command: |
+    nextdns config set {{ nextdns_args }}

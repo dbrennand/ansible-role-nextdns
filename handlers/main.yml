@@ -1,0 +1,6 @@
+---
+# handlers file for nextdns
+- name: Restart NextDNS
+  changed_when: false
+  ansible.builtin.command: |
+    nextdns restart
