@@ -26,8 +26,7 @@
     state: "{{ nextdns_state }}"
 
 - name: Install NextDNS
-  when: nextdns_state == 'present'
-  become: true
+  when: nextdns_state in ['present', 'latest']
   ansible.builtin.command: |
     {% if nextdns_mode == 'workstation' %}
       nextdns install -profile {{ nextdns_profile_id }} {% if nextdns_report_client_info %} -report-client-info {% endif %} -auto-activate
